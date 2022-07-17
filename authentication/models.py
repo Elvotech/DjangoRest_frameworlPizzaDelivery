@@ -10,16 +10,16 @@ class CustomUserManager(BaseUserManager):
         
         if not email:
             raise ValueError(_("Email should be provided"))
-        email=self.nomarlize_email(email)
+            email=self.normalize_email(email)
+            new_user=self.model(email=email, **extra_fields)
+            new_user.set_password(password)
 
-        new_user=self.model(email=email, **extra_fields)
 
-        new_user.set_password(password)
+            new_user.save()
 
-        new_user.save()
 
-        return new_user
-    
+           return new_user
+     
     def create_superuser(self,email,password,**extra_fields):
         extra_fields.setdefault('is_staff',True)
         extra_fields.setdefault('is_superuser', True)
